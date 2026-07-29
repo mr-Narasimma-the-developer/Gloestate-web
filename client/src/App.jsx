@@ -11,7 +11,7 @@ import Inbox from "./pages/Inbox";
 import SellerProfile from "./pages/SellerProfile";
 import Profile from "./pages/Profile";
 import PrivateRoute from "./components/PrivateRoute";
-import Footer from "./components/Footer/Footer";
+import Footer from "./components/Footer";
 
 
 
