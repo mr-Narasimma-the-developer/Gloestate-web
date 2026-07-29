@@ -81,13 +81,13 @@ const Footer = () => {
 
       <div className="footer-social">
 
-        <a href="#"><FaFacebookF />https://www.facebook.com/search/top?q=real%20estate</a>
+        <a href="https://www.facebook.com/search/top?q=real%20estate"><FaFacebookF /></a>
 
-        <a href="#"><FaInstagram />https://www.instagram.com/explore/</a>
+        <a href="https://www.instagram.com/explore"><FaInstagram /></a>
 
         {/* <a href="#"><FaLinkedinIn /></a> */}
 
-        <a href="#"><FaYoutube />https://www.youtube.com/results?search_query=real+estate</a>
+        <a href="https://www.youtube.com/results?search_query=real+estate"><FaYoutube /></a>
 
       </div>
 
