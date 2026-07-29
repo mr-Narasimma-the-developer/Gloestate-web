@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+server/node_modules/
+client/node_modules/
+
+# Environment variables -- NEVER commit these, they contain your DB credentials,
+# JWT secret, Cloudinary keys, and email password
+.env
+.env.local
+.env.*.local
+server/.env
+client/.env.local
+
+# Build output
+client/dist/
+server/dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Vite cache
+client/.vite/
+
+# Optional: uploaded/test files if you ever save any locally
+*.local
