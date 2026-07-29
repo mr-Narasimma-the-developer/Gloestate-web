@@ -1,0 +1,41 @@
+.profile-page {
+  max-width: 560px;
+}
+
+.avatar-upload-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.avatar-preview {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--color-primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  flex-shrink: 0;
+}
+
+.avatar-upload-controls input[type="file"] {
+  font-size: var(--font-size-sm);
+}
+
+.field-locked {
+  background: var(--color-bg-alt);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.field-hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
