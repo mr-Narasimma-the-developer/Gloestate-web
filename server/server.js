@@ -9,7 +9,22 @@ connectDB();
 const app = express();
 
 // MIDDLEWARE (application-level, runs on EVERY request):
-app.use(cors({ origin: process.env.CLIENT_URL || "*" })); // allows the React app (different port/domain) to call this API
+// app.use(cors({ origin: process.env.CLIENT_URL || "*" })); // allows the React app (different port/domain) to call this API
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://gloestate-web.vercel.app",
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+}));
 app.use(express.json()); // parses incoming JSON request bodies into req.body
 
 // ROUTES

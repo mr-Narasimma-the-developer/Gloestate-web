@@ -21,7 +21,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="container navbar-inner">
         <Link to="/" className="navbar-logo" onClick={closeMenu}>
-          Gloaro<span>Estate</span>
+          Glo<span>Estate</span>
         </Link>
 
         <button
