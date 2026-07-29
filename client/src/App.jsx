@@ -78,22 +78,13 @@ function App() {
           }
         />
       </Routes>
-    </>
-  );
-}
-
-function App() {
-  return (
-    <>
-      <Navbar />
-
-      <Routes>
-        {/* routes */}
-      </Routes>
 
       <Footer />
+
     </>
   );
 }
+
+
 
 export default App;
