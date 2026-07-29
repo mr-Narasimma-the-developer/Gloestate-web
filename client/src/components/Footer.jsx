@@ -39,9 +39,9 @@ const Footer = () => {
 
           <Link to="/browse">Browse</Link>
 
-          <Link to="/about">About</Link>
+          {/* <Link to="/about">About</Link>
 
-          <Link to="/contact">Contact</Link>
+          <Link to="/contact">Contact</Link> */}
 
         </div>
 
@@ -69,7 +69,7 @@ const Footer = () => {
 
           <p><FaMapMarkerAlt /> Chennai, Tamil Nadu</p>
 
-          <p><FaPhoneAlt /> +91 9876543210</p>
+          <p><FaPhoneAlt /> +91 8015409798</p>
 
           <p><FaEnvelope /> support@gloestate.com</p>
 
@@ -81,13 +81,13 @@ const Footer = () => {
 
       <div className="footer-social">
 
-        <a href="#"><FaFacebookF /></a>
+        <a href="#"><FaFacebookF />https://www.facebook.com/search/top?q=real%20estate</a>
 
-        <a href="#"><FaInstagram /></a>
+        <a href="#"><FaInstagram />https://www.instagram.com/explore/</a>
 
-        <a href="#"><FaLinkedinIn /></a>
+        {/* <a href="#"><FaLinkedinIn /></a> */}
 
-        <a href="#"><FaYoutube /></a>
+        <a href="#"><FaYoutube />https://www.youtube.com/results?search_query=real+estate</a>
 
       </div>
 

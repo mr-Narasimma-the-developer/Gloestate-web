@@ -1,5 +1,5 @@
 .footer{
-    background:#2d1b14;
+    background:var(--color-primary);
     color:#fff;
     margin-top:80px;
 }
@@ -24,7 +24,7 @@
 
     margin-bottom:20px;
 
-    color:#C97B3B;
+    color:#f0a93f;
 
 }
 
@@ -112,7 +112,7 @@
 
 .footer-social a:hover{
 
-    background:#C97B3B;
+    background:#e98b3e;
 
 }
 
