@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { getInbox, getConversation, replyMessage } from "../api/messageApi";
 import { useAuth } from "../context/AuthContext";
+import { useSocket } from "../context/SocketContext";
 import "./Inbox.css";
 
 const Inbox = () => {
   const { user } = useAuth();
+  const { socket } = useSocket();
   const [threads, setThreads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeThread, setActiveThread] = useState(null);
@@ -19,9 +21,6 @@ const Inbox = () => {
     const map = new Map();
 
     for (const msg of messages) {
-      // Defensive guard: skip any message whose property, sender, or receiver
-      // no longer exists (e.g. old data from before we started cascade-deleting
-      // messages when a property is removed). Prevents a crash on legacy data.
       if (!msg.property || !msg.sender || !msg.receiver) continue;
 
       const isSender = msg.sender._id === user._id;
@@ -55,6 +54,34 @@ const Inbox = () => {
     loadInbox();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleNewMessage = (message) => {
+      loadInbox();
+
+      setActiveThread((current) => {
+        if (!current) return current;
+
+        const isSender = message.sender._id === user._id;
+        const otherUserId = isSender ? message.receiver._id : message.sender._id;
+
+        if (current.propertyId === message.property._id && current.otherUserId === otherUserId) {
+          setConversation((prev) => [...prev, message]);
+        }
+
+        return current;
+      });
+    };
+
+    socket.on("newMessage", handleNewMessage);
+
+    return () => {
+      socket.off("newMessage", handleNewMessage);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket]);
 
   const openThread = (thread) => {
     setActiveThread(thread);

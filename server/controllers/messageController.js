@@ -2,11 +2,14 @@ const Message = require("../models/Message");
 const Property = require("../models/Property");
 const User = require("../models/User");
 const sendEmail = require("../config/mailer");
+const { emitToUser } = require("../socket");
 
-// @route   POST /api/messages
-// @access  Private (buyer only)
-// This is the core action: a buyer expresses interest in a property,
-// which creates a Message document AND triggers an email to the seller.
+const populateMessage = (message) =>
+  Message.findById(message._id)
+    .populate("sender", "name email")
+    .populate("receiver", "name email")
+    .populate("property", "title price city");
+
 const sendMessage = async (req, res) => {
   try {
     const { propertyId, content } = req.body;
@@ -15,29 +18,26 @@ const sendMessage = async (req, res) => {
       return res.status(400).json({ message: "propertyId and content are required" });
     }
 
-    // We need the property to find out WHO the seller is -- the frontend
-    // only sends the property id, never the seller's id directly. Never trust
-    // the client to tell us who the receiver should be; derive it server-side.
     const property = await Property.findById(propertyId).populate("seller", "name email");
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
     }
 
-    // Prevent a seller from "inquiring" about their own listing.
     if (property.seller._id.toString() === req.user._id.toString()) {
       return res.status(400).json({ message: "You cannot message yourself about your own property" });
     }
 
-    const message = await Message.create({
+    let message = await Message.create({
       property: propertyId,
-      sender: req.user._id, // the logged-in buyer, taken from the JWT via 'protect' middleware
+      sender: req.user._id,
       receiver: property.seller._id,
       content,
     });
 
-    // Fire the email AFTER the message is safely saved to the database.
-    // This way, even if the email fails (wrong SMTP creds, network issue),
-    // the actual inquiry is not lost -- the seller can still see it by logging in.
+    message = await populateMessage(message);
+
+    emitToUser(property.seller._id.toString(), "newMessage", message);
+
     await sendEmail({
       to: property.seller.email,
       subject: `New inquiry on your property: ${property.title}`,
@@ -55,9 +55,6 @@ const sendMessage = async (req, res) => {
   }
 };
 
-// @route   GET /api/messages/inbox
-// @access  Private (any logged-in user -- works for both buyer and seller)
-// Returns every conversation thread the logged-in user is part of, either as sender or receiver.
 const getInbox = async (req, res) => {
   try {
     const messages = await Message.find({
@@ -74,10 +71,6 @@ const getInbox = async (req, res) => {
   }
 };
 
-// @route   GET /api/messages/conversation/:propertyId/:otherUserId
-// @access  Private
-// Fetches the full back-and-forth thread between the logged-in user and one
-// other person, about one specific property -- this is what a chat-style UI needs.
 const getConversation = async (req, res) => {
   try {
     const { propertyId, otherUserId } = req.params;
@@ -90,9 +83,8 @@ const getConversation = async (req, res) => {
       ],
     })
       .populate("sender", "name email")
-      .sort({ createdAt: 1 }); // oldest first, so it reads top-to-bottom like a chat
+      .sort({ createdAt: 1 });
 
-    // Mark all messages sent TO the logged-in user in this thread as read.
     await Message.updateMany(
       { property: propertyId, sender: otherUserId, receiver: req.user._id, isRead: false },
       { isRead: true }
@@ -104,8 +96,6 @@ const getConversation = async (req, res) => {
   }
 };
 
-// @route   POST /api/messages/reply
-// @access  Private (typically the seller replying to a buyer, but works either direction)
 const replyMessage = async (req, res) => {
   try {
     const { propertyId, receiverId, content } = req.body;
@@ -119,12 +109,16 @@ const replyMessage = async (req, res) => {
       return res.status(404).json({ message: "Recipient not found" });
     }
 
-    const message = await Message.create({
+    let message = await Message.create({
       property: propertyId,
       sender: req.user._id,
       receiver: receiverId,
       content,
     });
+
+    message = await populateMessage(message);
+
+    emitToUser(receiverId, "newMessage", message);
 
     await sendEmail({
       to: receiver.email,
