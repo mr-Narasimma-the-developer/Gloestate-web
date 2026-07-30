@@ -110,11 +110,18 @@ const Home = () => {
                 <p>No properties match your search. Try adjusting your filters.</p>
               </div>
             ) : (
-              <div className="property-grid">
-                {properties.map((property) => (
-                  <PropertyCard key={property._id} property={property} />
+              // <div className="property-grid">
+              //   {properties.map((property) => (
+              //     <PropertyCard key={property._id} property={property} />
+              //   ))}
+              // </div>
+              <div className="properties-section">
+               <div className="properties-grid">
+                 {properties.map(property => (
+                 <PropertyCard key={property._id} property={property} />
                 ))}
               </div>
+</div>
             )}
           </>
         )}
