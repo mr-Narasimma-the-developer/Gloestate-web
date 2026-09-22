@@ -69,9 +69,9 @@ const Footer = () => {
 
           <p><FaMapMarkerAlt /> Chennai, Tamil Nadu</p>
 
-          <p><FaPhoneAlt /> +91 8015409798</p>
+          <p><FaPhoneAlt /> <a href="tel:+918015409798">+91 8015409798</a></p>
 
-          <p><FaEnvelope /> support@gloestate.com</p>
+          <p><FaEnvelope /> <a href="mailto:xperstrikes@gmail.com">xperstrikes@gmail.com</a></p>
 
         </div>
 
@@ -98,6 +98,8 @@ const Footer = () => {
         <p>
           © {new Date().getFullYear()} GloEstate. All Rights Reserved.
         </p>
+
+        <p className="footer-developer">Developed by <strong>XPERSTRIKES</strong></p>
 
       </div>
 

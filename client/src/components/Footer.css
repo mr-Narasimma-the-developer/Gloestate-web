@@ -72,6 +72,14 @@
 
 }
 
+.footer-column p a{
+
+    display:inline;
+
+    margin:0;
+
+}
+
 .footer-social{
 
     border-top:1px solid rgba(255,255,255,.1);
@@ -125,5 +133,17 @@
     color:#cfcfcf;
 
     font-size:14px;
+
+}
+
+.footer-developer{
+
+    margin:8px 0 0;
+
+}
+
+.footer-developer strong{
+
+    color:#C97B3B;
 
 }
