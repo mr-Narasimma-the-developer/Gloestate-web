@@ -19,6 +19,12 @@ const seed = async () => {
   let seller = await User.findOne({ email: demoSeller.email });
   if (!seller) {
     seller = await User.create(demoSeller);
+  } else {
+    seller.name = demoSeller.name;
+    seller.role = demoSeller.role;
+    seller.phone = demoSeller.phone;
+    seller.password = demoSeller.password;
+    await seller.save();
   }
 
   let created = 0;
