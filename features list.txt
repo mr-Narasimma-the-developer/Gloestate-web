@@ -1,0 +1,15 @@
+Real-time chat via Socket.io (current inbox polls on load/action, not instant push)
+Admin panel: approve/reject listings, manage users, platform-wide reports
+EMI calculator on property detail page
+Property comparison tool (side-by-side spec comparison)
+Saved search alerts ("notify me when a new 2BHK in Chennai under ₹50L is listed")
+Reviews/ratings for sellers
+RERA verification badge system (would need real verification logic behind it)
+Multi-image drag-to-reorder in the seller's upload form
+Dark mode / theme toggle
+SEO meta tags per property page for better search visibility
+Google/social login (OAuth) for faster signup
+In-app notification center (bell icon with unread counts)
+Virtual tour / 360° image support
+Payment gateway integration for booking/token deposits
+PWA support for installable offline-capable mobile experience
